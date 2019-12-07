@@ -22,7 +22,7 @@ def summarize(text):
         wfs = WordFrequencySummarizer()
         ops = OpenIESummarizer()
         wfs_summary = wfs.summarize(text, 1.1)
-        summary = ops.summarize(wfs_summary)
+        summary = ops.summarize(wfs_summary if len(wfs_summary) > 0 else text)
     elif language == 'es':
         error = 'Spanish summarization is in progress'
     else:
