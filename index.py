@@ -29,7 +29,7 @@ def summarize(text):
         error = 'The language is not supported'
     return {
         'language': language,
-        'summary': summary,
+        'summary': summary.strip(),
         'error': error
     }
 
