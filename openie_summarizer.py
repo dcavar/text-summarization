@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-
 import json
 
 from nltk.tokenize import sent_tokenize
@@ -20,13 +19,12 @@ class OpenIESummarizer:
 
     def summarize(self, text):
         summary = ''
-
         sentences = sent_tokenize(text)
         for sentence in sentences:
             try:
                 openie = self.__annotate(sentence)['sentences'][0]['openie'][0]
                 summary += '{} {} {}. '.format(openie['subject'], openie['relation'], openie['object'])
             except Exception as e:
-                print(e)
-
+                summary += sentence
         return summary
+

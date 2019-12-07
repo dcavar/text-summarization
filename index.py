@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from flask import Flask
+from flask import Flask, request
 from langdetect import detect
 
 from word_frequency_summarizer import WordFrequencySummarizer
@@ -12,8 +12,9 @@ Google News is a news aggregator app developed by Google. It presents a continuo
 
 app = Flask(__name__)
 
-@app.route('/summarize/<text>')
-def summarize(text):
+@app.route('/summarize', methods=['POST'])
+def summarize():
+    text = request.form['text']
     language = detect(text)
     summary = ''
     error = ''
@@ -22,7 +23,9 @@ def summarize(text):
         wfs = WordFrequencySummarizer()
         ops = OpenIESummarizer()
         wfs_summary = wfs.summarize(text, 1.1)
+        print(wfs_summary)
         summary = ops.summarize(wfs_summary if len(wfs_summary) > 0 else text)
+        print(summary)
     elif language == 'es':
         error = 'Spanish summarization is in progress'
     else:
@@ -35,20 +38,3 @@ def summarize(text):
 
 if __name__ == '__main__':
     app.run('localhost', 5000)
-#    print('Summary using WordFrequencySummarizer')
-#    wfs = WordFrequencySummarizer()
-#    wfs_summary = wfs.summarize(text_str, 1.1)
-#    print(wfs_summary)
-#    
-#    print('\nSummary using OpenIESummarizer')
-#    ops = OpenIESummarizer()
-#    ops_summary = ops.summarize(text_str)
-#    print(ops_summary)
-#
-#    print('\nSummary using WordFrequencySummarizer + OpenIESummarizer')
-#    wfs_ops_summary = ops.summarize(wfs_summary)
-#    print(wfs_ops_summary)
-#
-#    print('\nSummary using OpenIESummarizer + WordFrequencySummarizer')
-#    ops_wfs_summary = wfs.summarize(ops_summary, 1.1)
-#    print(ops_wfs_summary)
