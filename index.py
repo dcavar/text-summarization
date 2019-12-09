@@ -22,20 +22,19 @@ def summarize():
         data = request.get_json()
         text = data['text']
         print(text)
-        language = detect(text_str)
+        language = detect(text)
         summary = ''
         error = ''
-        text = text_str
 
         if language == 'en':
             language = "English"
             wfs = WordFrequencySummarizer()
             ops = OpenIESummarizer()
             wfs_summary = wfs.summarize(text, 1.1)
-            print(wfs_summary)
+            print('wfs_summary: ', wfs_summary)
             summary = ops.summarize(wfs_summary if len(wfs_summary) > 0 else text)
             summary = summary.strip()
-            print(summary)
+            print('summary:', summary)
         elif language == 'es':
             language = "Spanish"
             response = requests.post('http://localhost:8080/summarize', data=data)
@@ -43,7 +42,11 @@ def summarize():
             print(response.text)
         else:
             error = 'The language is not supported'
-        print(summary)
+        print({
+            'language': language,
+            'summary': summary,
+            'error': error
+        })
         return {
             'language': language,
             'summary': summary,
