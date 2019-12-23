@@ -22,3 +22,8 @@
 1. ``` cd anlp-corenlp-spanish-summarization/ ```
 2. ``` mvn clean install ```
 3. Run the jar file created.
+
+
+Open the index.html file in the frontend folder to use the code.
+
+Update: Currently spanish summarizer is not working from frontend, please use the spanish.txt file in the folder to get the summarizer in output of the api.
